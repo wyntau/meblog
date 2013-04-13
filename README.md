@@ -1,7 +1,9 @@
 meblog
 ======
 
-to install meblog, do below please
+to install meblog, you should have installed [Node.js](http://nodejs.org/) V0.10+ and [MongoDB](http://www.mongodb.org/) V2.4.1+.
+
+if you have done above, see below please
 
 1 clone the repo
 
