@@ -1,0 +1,7 @@
+<%- include header %>
+<% locals.posts.forEach(function(post, index){ %>
+    <p><h2><a href="/<%= post.user %>/<%= post.time %>/<%= post.title %>"><%= post.title %></a></h2>
+    <time><%= post.time %></time></p>
+    <p><%- post.post %></p>
+<% }) %>
+<%- include footer %>
