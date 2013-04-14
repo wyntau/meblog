@@ -37,3 +37,8 @@ if you have done above, see below please
 3. start the mongoDB daemon : double click **mongodb.bat**. **\*\*NOT**** close the window
 4. start the app : double click **start.bat**. **\*\*NOT**** close the window
 5. access <http://localhost:3000> for meblog :)
+
+### TODO:
+
+- post comment for visitor
+- archive and comment page navigation
