@@ -14,11 +14,11 @@ if you have done above, see below please
 
         cd meblog & npm install
     
-3. open a terminal and start the **mongoDB** daemon. **\*\*NOT\*\*** close the terminal
+3. open a terminal and start the **mongoDB** daemon. **\*\*NOT**** close the terminal
 
         ./mongodb
     
-4. open another terminal and start the app. **\*\*NOT\*\*** close the terminal
+4. open another terminal and start the app. **\*\*NOT**** close the terminal
 
         ./start
 
@@ -34,6 +34,6 @@ if you have done above, see below please
         cd \d meblog
         npm install
 
-3. start the mongoDB daemon : double click **mongodb.bat**. **\*\*NOT\*\*** close the window
-4. start the app : double click **start.bat**. **\*\*NOT\*\*** close the window
+3. start the mongoDB daemon : double click **mongodb.bat**. **\*\*NOT**** close the window
+4. start the app : double click **start.bat**. **\*\*NOT**** close the window
 5. access <http://localhost:3000> for meblog :)
