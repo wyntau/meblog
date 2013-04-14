@@ -1,3 +1,11 @@
 #!/bin/bash
-#start mongodb
+#make db directory and
+#start the mongodb daemon
+if test -e ./db
+    then
+    echo "db directory found"
+else
+    echo "make db directory for you"
+    mkdir ./db
+fi
 mongod --dbpath ./db
