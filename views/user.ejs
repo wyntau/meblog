@@ -21,8 +21,9 @@
                     <div>
                         <h3 class=""><a href="/<%= post.user %>/<%= post.time %>/<%= post.title %>"><%= post.title %></a></h2>
                         <p class=""><%- post.post %></p>
-                        <p class="muted text-right"><%= post.time %> by:<a href="/u/<%= post.user %>"><%= post.user %></a></p>
+                        <p class="muted text-right"><%= post.time %> Author:<a href="/u/<%= post.user %>"><%= post.user %></a></p>
                     </div>
+                    <hr>
                 <% }) %>
                 </article>
             </div>
