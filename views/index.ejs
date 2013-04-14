@@ -1,57 +1,12 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>MeBlog</title>
-        <!--[if lt IE 9]>
-            <script type = "text/javascript">
-                (function(elem) {
-                    var i, element;
-                    for (i = 0; i < elem.length; i++) {
-                        element = elem[i];
-                        document.createElement(element);
-                    }
-                })(["header","section","article","footer"])
-            </script>
-        <![endif]-->
-        <link rel="stylesheet" href="/css/bootstrap.min.css">
-        <link rel="stylesheet" href="/css/bootstrap-responsive.css">
-    </head>
-    <body>
-        <div class="container-fluid">
-            <div class="row">
-                <header class="span9 offset3">
-                    <div class="row">
-                        <h1 class="span2"><a href="/">MeBlog</a></h1>
-                        <span class="span4">Based on Node.js and MongoDB</span>
-                    </div>
-                </header>
-            </div>
-            <% if(locals.success || locals.error) {%>
-            <div class="row">
-                <article class="span7 offset5">
-                <% if (locals.success) { %> 
-                  <div> 
-                    <%= locals.success %> 
-                  </div> 
-                <% } %> 
-                <% if (locals.error) { %> 
-                  <div> 
-                    <%= locals.error %> 
-                  </div> 
-                <% } %>
-                </article>
-            </div>
-            <% } %>
+<%- include header %>
             
             <div class="row">
-                <nav class="span2 offset3 text-right">
-                    <ul class="unstyled">
+                <nav class="span2 offset2">
+                    <ul class="nav nav-tabs nav-stacked">
                         <% if(locals.user) {%>
-                        <li><a href="javascript:;">欢迎您,<%= locals.user.name %></a></li>
+                        <li class="disabled"><a href="javascript:;" >欢迎您,<%= locals.user.name %></a></li>
                         <% } %>
-                        <li><a href="/">首页</a></li>
+                        <li class="active"><a href="/">首页</a></li>
                         <% if(locals.user) {%>
                         <li><a href="/post">发言</a></li>
                         <li><a href="/logout">退出</a></li>
@@ -62,13 +17,15 @@
                     </ul>
                 </nav>
                 <article class="span6">
-<% locals.posts.forEach(function(post, index){ %>
-    <h2 class="span5"><a href="/<%= post.user %>/<%= post.time %>/<%= post.title %>"><%= post.title %></a></h2>
-    <time><%= post.time %> by:<a href="/u/<%= post.user %>"><%= post.user %></a></time>
-    <p><%- post.post %></p>
-<% }) %>
-            </article>
-        </div>
+                    <% locals.posts.forEach(function(post, index){ %>
+                    <div>
+                        <h3 class=""><a href="/<%= post.user %>/<%= post.time %>/<%= post.title %>"><%= post.title %></a></h2>
+                        <p class=""><%- post.post %></p>
+                        <p class="muted text-right"><%= post.time %> by:<a href="/u/<%= post.user %>"><%= post.user %></a></p>
+                    </div>
+                    <% }) %>    
+                </article>
+            </div>
         </div><!--container-->
     </body>
 </html>
