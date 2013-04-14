@@ -17,9 +17,9 @@
                     </ul>
                 </nav>
                 <article class="span6">
-                    <h3><%= locals.posts.title %></h3>
-                    <p><%- locals.posts.post %></p>
-                    <p class="muted text-right"><%= locals.posts.time %> Author: <a href="/u/<%= locals.posts.user %>"><%= locals.posts.user %></a>
+                    <h3><%= locals.post.title %></h3>
+                    <p><%- locals.post.post %></p>
+                    <p class="muted text-right"><%= locals.post.time %> Author: <a href="/u/<%= locals.post.user %>"><%= locals.post.user %></a>
                 </article>
             </div>
 <%- include footer %>

@@ -19,7 +19,7 @@
                 <article class="span6">
                     <% locals.posts.forEach(function(post, index){ %>
                     <div>
-                        <h3 class=""><a href="/<%= post.user %>/<%= post.time %>/<%= post.title %>"><%= post.title %></a></h3>
+                        <h3 class=""><a href="/p/<%= post.id %>"><%= post.title %></a></h3>
                         <p class=""><%- post.post %></p>
                         <p class="muted text-right"><%= post.time %> Author: <a href="/u/<%= post.user %>"><%= post.user %></a></p>
                     </div>

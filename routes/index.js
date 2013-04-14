@@ -10,7 +10,7 @@ var Post = require('../models/post.js');
 
 module.exports = function(app){
     app.get('/',function(req,res){
-        Post.get(null, function(err, posts) {
+        Post.getBy(null, function(err, posts) {
             if (err) {
                 posts = [];
             }
@@ -124,7 +124,7 @@ module.exports = function(app){
                 req.flash('error', '您所要查看的用户不存在');
                 return res.redirect('/');
             }
-            Post.get(user.name, function(err, posts) {
+            Post.getBy(user.name, function(err, posts) {
                 if (err) {
                     req.flash('error', err);
                     return res.redirect('/');
@@ -139,35 +139,50 @@ module.exports = function(app){
             });
         });
     });
-    app.get('/:user/:time/:title', function(req,res){
-        User.get(req.params.user,function(err, user){
-            if(!user){
-                req.flash('error','您所要查看的用户不存在'); 
-                return res.redirect('/');
+    // app.get('/:user/:time/:title', function(req,res){
+    //     User.get(req.params.user,function(err, user){
+    //         if(!user){
+    //             req.flash('error','您所要查看的用户不存在'); 
+    //             return res.redirect('/');
+    //         }
+    //         Post.get(user.name, function(err, posts){
+    //             if(err){
+    //                 req.flash('err',err); 
+    //                 return res.redirect('/');
+    //             }
+    //             var flag=false;
+    //             posts.forEach(function (article) {
+    //                 if(article.title==req.params.title){
+    //                     flag=true;
+    //                     res.render('article',{
+    //                         title:article.title,
+    //                         posts:article,
+    //                         user : req.session.user,
+    //                         success : req.flash('success').toString(),
+    //                         error : req.flash('error').toString()
+    //                     });
+    //                 }
+    //             });
+    //             if(!flag){
+    //                 req.flash('error','您所要查看的文章不存在'); 
+    //                 return res.redirect('/');
+    //             }  
+    //         });
+    //     }); 
+    // });
+    app.get('/p/:id',function(req,res){
+        Post.getById(req.params.id,function(err,post){
+            if(err){
+                req.flash('error','您所要查看的用户不存在');
+                return req.redirect('/');
             }
-            Post.get(user.name, function(err, posts){
-                if(err){
-                    req.flash('err',err); 
-                    return res.redirect('/');
-                }
-                var flag=false;
-                posts.forEach(function (article) {
-                    if(article.title==req.params.title){
-                        flag=true;
-                        res.render('article',{
-                            title:article.title,
-                            posts:article,
-                            user : req.session.user,
-                            success : req.flash('success').toString(),
-                            error : req.flash('error').toString()
-                        });
-                    }
-                });
-                if(!flag){
-                    req.flash('error','您所要查看的文章不存在'); 
-                    return res.redirect('/');
-                }  
-            });
-        }); 
-    });
+            res.render('article',{
+                title:post.title,
+                user:req.session.user,
+                post:post,
+                success:req.flash('success').toString(),
+                error:req.flash('error').toString()
+            })
+        })
+    })
 };

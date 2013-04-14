@@ -1,6 +1,7 @@
 var mongodb = require('./db');
 
-function Post(username, title,post, time) {
+
+function Post(username, title,post, time,id) {
     this.user = username;
     this.title = title;
     this.post = post;
@@ -9,6 +10,7 @@ function Post(username, title,post, time) {
     } else {
         this.time = new Date();
     }
+    this.id = id;
 };
 module.exports = Post;
 
@@ -18,7 +20,7 @@ Post.prototype.save = function save(callback) {
         user: this.user,
         title: this.title,
         post: this.post,
-        time: this.time
+        time: this.time,
     };
 
     mongodb.open(function(err, db) {
@@ -46,7 +48,7 @@ Post.prototype.save = function save(callback) {
     });
 };
 
-Post.get = function get(username, callback) {
+Post.getCollection = function getCollection(callback) {
     mongodb.open(function(err, db) {
         if (err) {
             return callback(err);
@@ -57,31 +59,76 @@ Post.get = function get(username, callback) {
                 mongodb.close();
                 return callback(err);
             }
-
-            //查找user属性为username的文档，如果username为null则匹配全部
-            var query = {};
-            if (username) {
-                query.user = username;
+            else {
+                callback(null,collection);
             }
 
-            collection.find(query, {limit:9}).sort({time: -1}).toArray(function(err, docs) {
-                mongodb.close();
+            // //查找user属性为username的文档，如果username为null则匹配全部
+            // var query = {};
+            // if (id) {
+            //     query._id = id;
+            // }
 
-                if (err) {
-                    callback(err, null);
-                }
+            // collection.find(query, {limit:9}).sort({time: -1}).toArray(function(err, docs) {
+            //     mongodb.close();
 
-                var posts = [];
+            //     if (err) {
+            //         callback(err, null);
+            //     }
+
+            //     var posts = [];
                 
-                docs.forEach(function(doc, index) {
-                    var post = new Post(doc.user, doc.title, doc.post, doc.time);
+            //     docs.forEach(function(doc, index) {
+            //         var post = new Post(doc.user, doc.title, doc.post, doc.time);
+            //         var now = post.time;
+            //         post.time = now.getFullYear() + "-" + (now.getUTCMonth()+1) + "-" + now.getUTCDate();
+            //         posts.push(post);
+            //     });
+
+            //     callback(null, posts);
+            // });
+        });
+    });
+};
+Post.getById = function getById(id,callback){
+
+    this.getCollection(function(err,collection){
+        mongodb.close();
+        if(err){
+            callback(err);
+        }else{
+            console.log(collection);
+            collection.findOne({_id:collection.db.pkFactory.createFromHexString(id)},function(err,result){
+                if(err){
+                    callback(err);
+                }else{
+                    callback(null,result);
+                }
+            });
+        }
+    });
+}
+Post.getBy = function getBy(name,callback){
+    this.getCollection(function(err,collection){
+        mongodb.close();
+        if(err){
+            callback(err);
+        }else{
+            var query = {};
+            if(name) query.user = name;
+            collection.find(query,{limit:5}).sort({time:-1}).toArray(function(err,docs){
+                if(err){
+                    callback(err);
+                }
+                var posts = [];
+                docs.forEach(function(doc,index){
+                    var post = new Post(doc.user, doc.title, doc.post, doc.time,doc._id);
                     var now = post.time;
                     post.time = now.getFullYear() + "-" + (now.getUTCMonth()+1) + "-" + now.getUTCDate();
                     posts.push(post);
                 });
-
-                callback(null, posts);
-            });
-        });
-    });
-};
+                callback(null,posts);
+            })
+        }
+    })
+}
