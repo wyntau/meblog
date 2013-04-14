@@ -19,6 +19,7 @@
                 <article class="span6">
                     <h3><%= locals.posts.title %></h3>
                     <p><%- locals.posts.post %></p>
+                    <p class="muted text-right"><%= locals.posts.time %> Author: <a href="/u/<%= locals.posts.user %>"><%= locals.posts.user %></a>
                 </article>
             </div>
 <%- include footer %>
