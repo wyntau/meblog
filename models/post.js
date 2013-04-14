@@ -31,7 +31,12 @@ Post.prototype.save = function save(callback) {
                 mongodb.close();
                 return callback(err);
             }
-            collection.ensureIndex('user');
+            collection.ensureIndex('user',function(err){
+                if(err){
+                    mongodb.close();
+                    return callback(err);
+                }
+            });
             
             collection.insert(post, {safe: true}, function(err, post) {
                 mongodb.close();
