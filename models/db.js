@@ -3,4 +3,4 @@ var settings = require('../settings')
     , Connection = require('mongodb').Connection
     , Server = require('mongodb').Server;
 
-module.exports = new Db(settings.db,new Server(settings.host,settings.port,{safe:false,auto_reconnect : true}));
+module.exports = new Db(settings.db,new Server(settings.host,settings.port,{safe:false,auto_reconnect : true}),{w:1});
