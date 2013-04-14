@@ -49,7 +49,7 @@ module.exports = function(app){
         //检查用户名是否已经存在
         User.get(newUser.name, function(err, user) {
             if (user)
-                err = 'Username already exists.';
+                err = '用户名已存在';
             if (err) {
                 req.flash('error', err);
                 return res.redirect('/reg');
@@ -121,7 +121,7 @@ module.exports = function(app){
     app.get('/u/:user',function(req,res){
         User.get(req.params.user, function(err, user) {
             if (!user) {
-                req.flash('error', '用户不存在');
+                req.flash('error', '您所要查看的用户不存在');
                 return res.redirect('/');
             }
             Post.get(user.name, function(err, posts) {
@@ -142,7 +142,7 @@ module.exports = function(app){
     app.get('/:user/:time/:title', function(req,res){
         User.get(req.params.user,function(err, user){
             if(!user){
-                req.flash('error','用户不存在'); 
+                req.flash('error','您所要查看的用户不存在'); 
                 return res.redirect('/');
             }
             Post.get(user.name, function(err, posts){
@@ -164,7 +164,7 @@ module.exports = function(app){
                     }
                 });
                 if(!flag){
-                    req.flash('error','文章不存在'); 
+                    req.flash('error','您所要查看的文章不存在'); 
                     return res.redirect('/');
                 }  
             });
