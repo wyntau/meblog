@@ -62,31 +62,6 @@ Post.getCollection = function getCollection(callback) {
             else {
                 callback(null,collection);
             }
-
-            // //查找user属性为username的文档，如果username为null则匹配全部
-            // var query = {};
-            // if (id) {
-            //     query._id = id;
-            // }
-
-            // collection.find(query, {limit:9}).sort({time: -1}).toArray(function(err, docs) {
-            //     mongodb.close();
-
-            //     if (err) {
-            //         callback(err, null);
-            //     }
-
-            //     var posts = [];
-                
-            //     docs.forEach(function(doc, index) {
-            //         var post = new Post(doc.user, doc.title, doc.post, doc.time);
-            //         var now = post.time;
-            //         post.time = now.getFullYear() + "-" + (now.getUTCMonth()+1) + "-" + now.getUTCDate();
-            //         posts.push(post);
-            //     });
-
-            //     callback(null, posts);
-            // });
         });
     });
 };
@@ -97,11 +72,12 @@ Post.getById = function getById(id,callback){
         if(err){
             callback(err);
         }else{
-            console.log(collection);
+            //console.log(collection);
             collection.findOne({_id:collection.db.pkFactory.createFromHexString(id)},function(err,result){
                 if(err){
                     callback(err);
                 }else{
+                    result.time = formatTime(result.time);
                     callback(null,result);
                 }
             });
@@ -123,12 +99,16 @@ Post.getBy = function getBy(name,callback){
                 var posts = [];
                 docs.forEach(function(doc,index){
                     var post = new Post(doc.user, doc.title, doc.post, doc.time,doc._id);
-                    var now = post.time;
-                    post.time = now.getFullYear() + "-" + (now.getUTCMonth()+1) + "-" + now.getUTCDate();
+                    post.time = formatTime(post.time);
                     posts.push(post);
                 });
                 callback(null,posts);
             })
         }
     })
+}
+function formatTime(time){
+    var now = time;
+    time = now.getFullYear() + "-" + (now.getUTCMonth()+1) + "-" + now.getUTCDate();
+    return time;
 }
