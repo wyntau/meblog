@@ -49,14 +49,14 @@ if ('development' == app.get('env')) {
 // app.get('/users', user.list);
 // 
 
-app.use(function(req,res,next){
-    var err = req.flash('error'),
-        success = req.flash('success');
-    res.locals.user = req.session.user;
-    res.locals.error = err.length ? err : null;
-    res.locals.success = success.length ? success : null;
-    next();
-});
+// app.use(function(req,res,next){
+//     var err = req.flash('error'),
+//         success = req.flash('success');
+//     res.locals.user = req.session.user;
+//     res.locals.error = err.length ? err : null;
+//     res.locals.success = success.length ? success : null;
+//     next();
+// });
 
 
 http.createServer(app).listen(app.get('port'), function(){

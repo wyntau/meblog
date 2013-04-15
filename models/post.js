@@ -14,46 +14,11 @@ function Post(username, title,post, time,id) {
 };
 module.exports = Post;
 
-Post.prototype.save = function save(callback) {
-    // 存入 Mongodb 的文檔
-    var post = {
-        user: this.user,
-        title: this.title,
-        post: this.post,
-        time: this.time,
-    };
-
-    mongodb.open(function(err, db) {
-        if (err) {
-          return callback(err);
-        }
-        
-        db.collection('posts', function(err, collection) {
-            if (err) {
-                mongodb.close();
-                return callback(err);
-            }
-            collection.ensureIndex('user',function(err){
-                if(err){
-                    mongodb.close();
-                    return callback(err);
-                }
-            });
-            
-            collection.insert(post, {safe: true}, function(err, post) {
-                mongodb.close();
-                callback(err, post);
-            });
-        });
-    });
-};
-
 Post.getCollection = function getCollection(callback) {
     mongodb.open(function(err, db) {
         if (err) {
             return callback(err);
         }
-    
         db.collection('posts', function(err, collection) {
             if (err) {
                 mongodb.close();
@@ -65,8 +30,35 @@ Post.getCollection = function getCollection(callback) {
         });
     });
 };
-Post.getById = function getById(id,callback){
 
+Post.prototype.save = function save(callback) {
+    // 存入 Mongodb 的文檔
+    var post = {
+        user: this.user,
+        title: this.title,
+        post: this.post,
+        time: this.time,
+    };
+    Post.getCollection(function(err,collection){
+        if(err) {
+            callback(err);
+        } else{
+            collection.ensureIndex('user',function(err){
+                if(err){
+                    mongodb.close();
+                    return callback(err);
+                }
+            });
+            collection.insert(post, {safe: true}, function(err, post) {
+                mongodb.close();
+                callback(err, post);
+            });
+        }
+    });
+};
+
+
+Post.getById = function getById(id,callback){
     this.getCollection(function(err,collection){
         mongodb.close();
         if(err){
@@ -83,7 +75,8 @@ Post.getById = function getById(id,callback){
             });
         }
     });
-}
+};
+
 Post.getBy = function getBy(name,callback){
     this.getCollection(function(err,collection){
         mongodb.close();
@@ -106,7 +99,7 @@ Post.getBy = function getBy(name,callback){
             })
         }
     })
-}
+};
 function formatTime(time){
     var now = time;
     time = now.getFullYear() + "-" + (now.getUTCMonth()+1) + "-" + now.getUTCDate();
