@@ -9,8 +9,11 @@ var Post = require('../models/post.js');
  */
 
 module.exports = function(app){
-    app.get('/',function(req,res){
-        Post.getBy(null, function(err, posts) {
+    //get homepage or pageX
+    app.get(/^\/(?:page\/([1-9]+\d*))?$/,function(req,res){
+        if(req.params[0]) page = req.params[0];
+        else page = 1;
+        Post.getBy(null, page,function(err, posts,page) {
             if (err) {
                 posts = [];
             }
@@ -18,6 +21,7 @@ module.exports = function(app){
                 title: '首页',
                 posts : posts,
                 user : req.session.user,
+                page: page,
                 success : req.flash('success').toString(),
                 error : req.flash('error').toString()
             });
@@ -118,13 +122,15 @@ module.exports = function(app){
             res.redirect('/');
         });
     });
-    app.get('/u/:user',function(req,res){
-        User.get(req.params.user, function(err, user) {
+    app.get(/^\/u\/(\w+)(?:\/page\/([1-9]+\d*))?$/,function(req,res){
+        var page = 1;
+        User.get(req.params[0], function(err, user) {
             if (!user) {
                 req.flash('error', '您所要查看的用户不存在');
                 return res.redirect('/');
             }
-            Post.getBy(user.name, function(err, posts) {
+            if(req.params[1]) page = req.params[1];
+            Post.getBy(user.name, page,function(err, posts) {
                 if (err) {
                     req.flash('error', err);
                     return res.redirect('/');

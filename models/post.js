@@ -1,4 +1,5 @@
 var mongodb = require('./db');
+var settings = require('../settings');
 
 
 function Post(username, title,post, time,id) {
@@ -77,15 +78,27 @@ Post.getById = function getById(id,callback){
     });
 };
 
-Post.getBy = function getBy(name,callback){
+Post.getBy = function getBy(name,page,callback){
+    //console.log('GET page:' + page);
     this.getCollection(function(err,collection){
         mongodb.close();
         if(err){
             callback(err);
         }else{
             var query = {};
+            var _skip = 0;
+            var _limit = settings.pageSize;
+            //console.log('limit: '+ _limit);
             if(name) query.user = name;
-            collection.find(query,{limit:5}).sort({time:-1}).toArray(function(err,docs){
+            if(page) {
+                _skip = (page-1) * settings.pageSize;
+                //console.log('skip: '+_skip);
+            }
+            else 
+                _skip = 0;
+            //console.log('settings.pageSize: '+settings.pageSize);
+            //console.log('skip:'+_skip);
+            collection.find(query,{limit:_limit,skip:_skip}).sort({time:-1}).toArray(function(err,docs){
                 if(err){
                     callback(err);
                 }
@@ -95,7 +108,7 @@ Post.getBy = function getBy(name,callback){
                     post.time = formatTime(post.time);
                     posts.push(post);
                 });
-                callback(null,posts);
+                callback(null,posts,page);
             })
         }
     })
