@@ -10,6 +10,7 @@ var Post = require('../models/post.js');
 
 module.exports = function(app){
     //get homepage or pageX
+    //app.get('/(page/:page)?',function(req,res){
     app.get(/^\/(?:page\/([1-9]+\d*))?$/,function(req,res){
         if(req.params[0]) page = req.params[0];
         else page = 1;
@@ -122,6 +123,7 @@ module.exports = function(app){
             res.redirect('/');
         });
     });
+    //app.get('/u/:user/(page/:page)?',function(req,res){
     app.get(/^\/u\/(\w+)(?:\/page\/([1-9]+\d*))?$/,function(req,res){
         var page = 1;
         User.get(req.params[0], function(err, user) {
