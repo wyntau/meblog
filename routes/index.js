@@ -14,7 +14,7 @@ module.exports = function(app){
     app.get(/^\/(?:page\/([1-9]+\d*))?$/,function(req,res){
         if(req.params[0]) page = req.params[0];
         else page = 1;
-        Post.getBy(null, page,function(err, posts,page) {
+        Post.getBy(null, page,function(err, posts,page,totalPage) {
             if (err) {
                 posts = [];
             }
@@ -23,6 +23,7 @@ module.exports = function(app){
                 posts : posts,
                 user : req.session.user,
                 page: page,
+                totalPage:totalPage,
                 success : req.flash('success').toString(),
                 error : req.flash('error').toString()
             });
@@ -132,7 +133,7 @@ module.exports = function(app){
                 return res.redirect('/');
             }
             if(req.params[1]) page = req.params[1];
-            Post.getBy(user.name, page,function(err, posts) {
+            Post.getBy(user.name, page,function(err, posts,page,totalPage) {
                 if (err) {
                     req.flash('error', err);
                     return res.redirect('/');
@@ -140,6 +141,8 @@ module.exports = function(app){
                 res.render('user', {
                     title: user.name,
                     posts: posts,
+                    page:page,
+                    totalPage:totalPage,
                     user : req.session.user,
                     success : req.flash('success').toString(),
                     error : req.flash('error').toString()

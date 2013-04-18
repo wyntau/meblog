@@ -80,6 +80,7 @@ Post.getById = function getById(id,callback){
 
 Post.getBy = function getBy(name,page,callback){
     //console.log('GET page:' + page);
+    var totalPage = 0;
     this.getCollection(function(err,collection){
         mongodb.close();
         if(err){
@@ -98,21 +99,46 @@ Post.getBy = function getBy(name,page,callback){
                 _skip = 0;
             //console.log('settings.pageSize: '+settings.pageSize);
             //console.log('skip:'+_skip);
+            collection.find(query).count(function(err,pageCount){
+                if (err) { 
+                    callback(err);
+                }else{
+                    totalPage = pageCount;
+                    //console.log(totalPage);
+                }
+            });
+
+            //totalPage = collection.find(query).count();
+            //console.log(collection.find(query,{limit:_limit,skip:_skip}));
             collection.find(query,{limit:_limit,skip:_skip}).sort({time:-1}).toArray(function(err,docs){
                 if(err){
                     callback(err);
                 }
+                console.log(docs);
                 var posts = [];
                 docs.forEach(function(doc,index){
                     var post = new Post(doc.user, doc.title, doc.post, doc.time,doc._id);
                     post.time = formatTime(post.time);
                     posts.push(post);
                 });
-                callback(null,posts,page);
+                callback(null,posts,page,totalPage);
             })
         }
     })
 };
+// Post.getTotalBy = function getTotalBy(name,callback){
+//     var total = 0;
+//     this.getCollection(function(err,collection){
+//         if(err){
+//             callback(err);
+//         }else{
+//             var query = {};
+//             if(name) query.user = name;
+//         }
+//         total = collection.find(query).count(true);
+//         callback()
+//     })
+// }
 function formatTime(time){
     var now = time;
     time = now.getFullYear() + "-" + (now.getUTCMonth()+1) + "-" + now.getUTCDate();

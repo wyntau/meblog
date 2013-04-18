@@ -52,3 +52,5 @@ header nav ul {float:left;}
 header nav ul li{float:left;list-style-type: none;height:46px;line-height: 46px;margin-left: 20px;}
 header nav ul li.active{background:#222;}
 #wrap{width:700px;margin: 0 auto;clear:both;}
+
+div.pagenavi ul li{float:left;list-style-type: none;margin-left: 5px;}
