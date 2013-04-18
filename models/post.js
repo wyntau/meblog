@@ -105,24 +105,25 @@ Post.getBy = function getBy(name,page,callback){
                 }else{
                     totalPage = pageCount;
                     //console.log(totalPage);
+                    collection.find(query,{limit:_limit,skip:_skip}).sort({time:-1}).toArray(function(err,docs){
+                        if(err){
+                            callback(err);
+                        }
+                        console.log(docs);
+                        var posts = [];
+                        docs.forEach(function(doc,index){
+                            var post = new Post(doc.user, doc.title, doc.post, doc.time,doc._id);
+                            post.time = formatTime(post.time);
+                            posts.push(post);
+                        });
+                        callback(null,posts,page,totalPage);
+                    });
                 }
             });
 
             //totalPage = collection.find(query).count();
             //console.log(collection.find(query,{limit:_limit,skip:_skip}));
-            collection.find(query,{limit:_limit,skip:_skip}).sort({time:-1}).toArray(function(err,docs){
-                if(err){
-                    callback(err);
-                }
-                console.log(docs);
-                var posts = [];
-                docs.forEach(function(doc,index){
-                    var post = new Post(doc.user, doc.title, doc.post, doc.time,doc._id);
-                    post.time = formatTime(post.time);
-                    posts.push(post);
-                });
-                callback(null,posts,page,totalPage);
-            })
+            
         }
     })
 };

@@ -1,7 +1,7 @@
-                <% if(locals.totalPage && locals.totalPage >1 ) { %>
-                <% var start = (locals.page-3) <=0 ? 1 : (locals.page-3) %>
+                <% if(locals.totalPage && locals.totalPage > 1 ) { %>
+                <% var start = parseInt(locals.page) - 3 ;var start = start <=0 ? 1 : start; %>
                 <%= locals.page %>
-                <% var end = (locals.page+3) >= (locals.totalPage) ? (locals.totalPage) : (locals.page+3) %>
+                <% var total =  parseInt(locals.page) + 3; var end = total >= (locals.totalPage) ? (locals.totalPage) : total; %>
                     <div class="pagenavi">
                         <ul>
                         <% for(var i = start;i<= end;i++) {%>
