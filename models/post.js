@@ -93,12 +93,10 @@ Post.getBy = function getBy(name,page,callback){
             if(name) query.user = name;
             if(page) {
                 _skip = (page-1) * settings.pageSize;
-                //console.log('skip: '+_skip);
-            }
-            else 
+            } else {
                 _skip = 0;
-            //console.log('settings.pageSize: '+settings.pageSize);
-            //console.log('skip:'+_skip);
+            } 
+            //first get posts totalcount
             collection.find(query).count(function(err,postsCount){
                 if (err) { 
                     callback(err);
@@ -125,26 +123,9 @@ Post.getBy = function getBy(name,page,callback){
                     callback(null,[],0,0);
                 }
             });
-
-            //totalPage = collection.find(query).count();
-            //console.log(collection.find(query,{limit:_limit,skip:_skip}));
-            
         }
     })
 };
-// Post.getTotalBy = function getTotalBy(name,callback){
-//     var total = 0;
-//     this.getCollection(function(err,collection){
-//         if(err){
-//             callback(err);
-//         }else{
-//             var query = {};
-//             if(name) query.user = name;
-//         }
-//         total = collection.find(query).count(true);
-//         callback()
-//     })
-// }
 function formatTime(time){
     var now = time;
     time = now.getFullYear() + "-" + (now.getUTCMonth()+1) + "-" + now.getUTCDate();
