@@ -18,6 +18,13 @@ module.exports = function(app){
             if (err) {
                 posts = [];
             }
+            if(totalPage == 0){
+                req.flash('error','没有文章可以显示');
+            }
+            if(posts.length == 0){
+                req.flash('error','您要查看的页码没有文章可以显示');
+                return res.redirect('/');
+            }
             res.render('index', {
                 title: '首页',
                 posts : posts,
@@ -73,31 +80,43 @@ module.exports = function(app){
         });
     });
     app.get('/login',function(req,res){
+        if(!req.session.user){
             res.render('login', {
-            title: '用户登录',
-            user : req.session.user,
-            success : req.flash('success').toString(),
-            error : req.flash('error').toString()
-        });
+                title: '用户登录',
+                user : req.session.user,
+                success : req.flash('success').toString(),
+                error : req.flash('error').toString()
+            });
+        } else{
+            req.flash('error','您已经登录，请不要调皮');
+            return res.redirect('/');
+        }
+            
     });
     app.post('/login',function(req,res){
-        //生成口令的散列值
-        var md5 = crypto.createHash('md5');
-        var password = md5.update(req.body.password).digest('base64');
+        if(!req.session.user){
+            //生成口令的散列值
+            var md5 = crypto.createHash('md5');
+            var password = md5.update(req.body.password).digest('base64');
+            
+            User.get(req.body.username, function(err, user) {
+                if (!user) {
+                    req.flash('error', '用户不存在');
+                    return res.redirect('/login');
+                }
+                if (user.password != password) {
+                    req.flash('error', '密码错误');
+                    return res.redirect('/login');
+                }
+                req.session.user = user;
+                req.flash('success', '登录成功');
+                res.redirect('/');
+            });
+        } else {
+            req.flash('error','您已经登录，请不要调皮');
+            return res.redirect('/');
+        }
         
-        User.get(req.body.username, function(err, user) {
-            if (!user) {
-                req.flash('error', '用户不存在');
-                return res.redirect('/login');
-            }
-            if (user.password != password) {
-                req.flash('error', '密码错误');
-                return res.redirect('/login');
-            }
-            req.session.user = user;
-            req.flash('success', '登录成功');
-            res.redirect('/');
-        });
     });
     app.get('/logout',function(req,res){
         req.session.user = null;
@@ -105,24 +124,36 @@ module.exports = function(app){
         res.redirect('/');
     });
     app.get('/post',function(req,res){
-        res.render('post',{
-            title:'发表',
-            user:req.session.user,
-            success:req.flash('success').toString(),
-            error:req.flash('error').toString()
-        }); 
+        if(req.session.user){
+            res.render('post',{
+                title:'发表',
+                user:req.session.user,
+                success:req.flash('success').toString(),
+                error:req.flash('error').toString()
+            });
+        } else{
+            req.flash('error','您没有发表权限，请先登录')
+            return res.redirect('/login');
+        }
+         
     });
     app.post('/post',function(req,res){
-        var currentUser = req.session.user;
-        var post = new Post(currentUser.name, req.body.title, req.body.post);
-        post.save(function(err) {
-            if (err) {
-                req.flash('error', err);
-                return res.redirect('/');
-            }
-            req.flash('success', '发表成功');
-            res.redirect('/');
-        });
+        if(req.session.user){
+            var currentUser = req.session.user;
+            var post = new Post(currentUser.name, req.body.title, req.body.post);
+            post.save(function(err) {
+                if (err) {
+                    req.flash('error', err);
+                    return res.redirect('/');
+                }
+                req.flash('success', '发表成功');
+                res.redirect('/');
+            });
+        } else{
+            req.flash('error','您没有发表权限，请先登录')
+            return res.redirect('/login');
+        }
+        
     });
     //app.get('/u/:user/(page/:page)?',function(req,res){
     app.get(/^\/u\/(\w+)(?:\/page\/([1-9]+\d*))?$/,function(req,res){
@@ -138,23 +169,31 @@ module.exports = function(app){
                     req.flash('error', err);
                     return res.redirect('/');
                 }
-                res.render('user', {
-                    title: user.name,
-                    posts: posts,
-                    page:page,
-                    totalPage:totalPage,
-                    user : req.session.user,
-                    success : req.flash('success').toString(),
-                    error : req.flash('error').toString()
-                });
+                if(totalPage > 0){
+                    res.render('user', {
+                        title: user.name,
+                        posts: posts,
+                        page:page,
+                        totalPage:totalPage,
+                        user : req.session.user,
+                        success : req.flash('success').toString(),
+                        error : req.flash('error').toString()
+                    });
+                } else if(totalPage == 0 && req.session.user == user.name){
+                    req.flash('error','您还没有文章可以显示，请先发表');
+                    return res.redirect('/post');
+                } else{
+                    req.flash('error','您要查看的用户没有文章可以显示');
+                    return res.redirect('/');
+                }
             });
         });
     });
     app.get('/p/:id',function(req,res){
         Post.getById(req.params.id,function(err,post){
             if(err){
-                req.flash('error','您所要查看的用户不存在');
-                return req.redirect('/');
+                req.flash('error','您所要查看的文章不存在');
+                return res.redirect('/');
             }
             res.render('article',{
                 title:post.title,

@@ -99,17 +99,19 @@ Post.getBy = function getBy(name,page,callback){
                 _skip = 0;
             //console.log('settings.pageSize: '+settings.pageSize);
             //console.log('skip:'+_skip);
-            collection.find(query).count(function(err,pageCount){
+            collection.find(query).count(function(err,postsCount){
                 if (err) { 
                     callback(err);
-                }else{
+                }else if(postsCount > 0){
+                    pageCount = postsCount/settings.pageSize;
+                    pageCount = pageCount > 0 ? pageCount : 1;
                     totalPage = pageCount;
                     //console.log(totalPage);
                     collection.find(query,{limit:_limit,skip:_skip}).sort({time:-1}).toArray(function(err,docs){
                         if(err){
                             callback(err);
                         }
-                        console.log(docs);
+                        //console.log(docs);
                         var posts = [];
                         docs.forEach(function(doc,index){
                             var post = new Post(doc.user, doc.title, doc.post, doc.time,doc._id);
@@ -118,6 +120,8 @@ Post.getBy = function getBy(name,page,callback){
                         });
                         callback(null,posts,page,totalPage);
                     });
+                } else if(postsCount == 0){
+                    callback(null,[],0,0);
                 }
             });
 
