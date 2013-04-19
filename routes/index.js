@@ -171,7 +171,8 @@ module.exports = function(app){
                 }
                 if(totalPage > 0){
                     res.render('user', {
-                        title: user.name,
+                        title: user.name + '文章',
+                        author: user.name,
                         posts: posts,
                         page:page,
                         totalPage:totalPage,

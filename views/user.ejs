@@ -25,4 +25,18 @@
                     </div>
                     <hr>
                 <% }) %>
+                <% if(locals.totalPage && locals.totalPage > 1 ) { %>
+                <% var start = parseInt(locals.page) - 3 ;var start = start <=0 ? 1 : start; %>
+                <!--<%= locals.page %> <%= locals.totalPage %>-->
+                <% var total =  parseInt(locals.page) + 3; var end = total >= (locals.totalPage) ? (locals.totalPage) : total; %>
+                    <div class="pagination pagination-centered">
+                        <ul>
+                        <% if (locals.page > 1) {%><li><a href="/u/<%= locals.author%>/page/<%= locals.page - 1%>">&laquo;</a></li><%}%>
+                        <% for(var i = start;i<= end;i++) {%>
+                        <li class="<%if(i == locals.page) {%>active disabled<%} else {%><%}%>"><a href="/u/<%= locals.author%>/page/<%= i %>"><%= i %></a></li>
+                        <%}%>
+                        <% if (locals.page < end) {%><li><a href="/u/<%= locals.author%>/page/<%= parseInt(locals.page) + 1%>">&raquo;</a></li><%}%>
+                        </ul>
+                    </div>
+                <% } %>
 <%- include footer %>

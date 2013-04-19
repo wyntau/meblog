@@ -38,7 +38,11 @@ if you have done above, see below please
 4. start the app : double click **start.bat**. **\*\*NOT**** close the window
 5. access <http://localhost:3000> for meblog :)
 
-### TODO:
-
+### TODO: ###
+- <del>redister</del>
+- <del>login and logout</del>
+- <del>add kindEditor</del>
+- <del>post article</del>
+- <del>archive pagination for indexpage and userpage</del>
 - post comment for visitor
-- archive and comment page navigation
+- comment page navigation
