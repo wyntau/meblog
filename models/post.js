@@ -103,7 +103,8 @@ Post.getBy = function getBy(name,page,callback){
                 if (err) { 
                     callback(err);
                 }else if(postsCount > 0){
-                    pageCount = postsCount/settings.pageSize;
+                    pageCount = Math.ceil(postsCount/settings.pageSize);
+                    console.log(pageCount);
                     pageCount = pageCount > 0 ? pageCount : 1;
                     totalPage = pageCount;
                     //console.log(totalPage);
