@@ -31,7 +31,7 @@ if you have done above, see below please
 
 2. open a cmd, cd meblog directory and install the dependences
 
-        cd \d meblog
+        cd /d meblog
         npm install
 
 3. start the mongoDB daemon : double click **mongodb.bat**. **\*\*NOT**** close the window
