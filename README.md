@@ -47,5 +47,6 @@ if you have done above, see below please
 - <del>post comment for visitor</del>
 - <del>comment page navigation</del>
 - <del>add comment gravatar</del>
+- <del>if the user has login, not show visitor input form</del>
 - add post tags
 - index show comment count
