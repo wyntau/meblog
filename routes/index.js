@@ -261,7 +261,7 @@ module.exports = function(app){
                 return res.redirect('/p/'+req.body.parentId);
             }
             req.flash('success','评论成功');
-            var expire = new Date(Date.now() + 32*60*60*1000);
+            var expire = new Date(Date.now() + 30*32*60*60*1000); // a month expires
             //console.log('expire:' +expire);
             res.cookie('author',req.body.author,{ expires: expire });
             res.cookie('email',req.body.email,{ expires: expire });

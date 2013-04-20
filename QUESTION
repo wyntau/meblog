@@ -4,3 +4,4 @@
     解决方法: 先查询文章总数,在回调函数中 计算出页码数据,然后再查询某一页码的文章数据,在此层回调函数中向前端返回数据
 3 ObjectID 需要直接从 require('mongodb').ObjectID,而不是从require('mongodb').Db.ObjectID
 4 md5每次计算都要重新请求一个md5 然后进行 update().digest()
+5 cookie 设置expires时 date.now()为有时区信息, new Date(Date.now()+ 24*60*60*1000) 需要乘以1000变成毫秒,
