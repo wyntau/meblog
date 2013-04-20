@@ -44,5 +44,8 @@ if you have done above, see below please
 - <del>add kindEditor</del>
 - <del>post article</del>
 - <del>archive pagination for indexpage and userpage</del>
-- post comment for visitor
-- comment page navigation
+- <del>post comment for visitor</del>
+- <del>comment page navigation</del>
+- <del>add comment gravatar</del>
+- add post tags
+- index show comment count
