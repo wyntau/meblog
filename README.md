@@ -50,6 +50,8 @@ if you have done above, see below please
 - <del>add comment gravatar</del>
 - <del>if the user has login, not show visitor input form</del>
 - add post tags
+- user setting page to update own info
+- Visitor Gravatar cache
 - index show comment count
 
 ## License
