@@ -24,10 +24,11 @@
                             <fieldset>
                                 <legend>评论</legend>
                                 <input type="text" name="parentId" value="<%= locals.post._id%>" style="display:none;">
-                                <label class="" for="author"><input type="text" class="input-xlarge" name="author" placeholder="Your name here..."/><span class="help-inline">昵称</span></label>
-                                <label class="" for="email"><input type="text" class="input-xlarge" name="email" placeholder="Your Email here..."/><span class="help-inline">邮箱</span></label>
-                                <label class="pull-left"><textarea name="comment" class="input-xxlarge" rows="5"></textarea></label>
-                                <input type="submit" class="btn btn-primary btn-block" value="发表" />
+                                <label class="" for="author"><input type="text" class="input-xlarge" name="author" required="required" placeholder="Your name here..."/><span class="help-inline">昵称(*)</span></label>
+                                <label class="" for="email"><input type="email" required="required" class="input-xlarge" name="email" placeholder="Your Email here..."/><span class="help-inline">邮箱(*)</span></label>
+                                <label class="" for="url"><input type="text" class="input-xlarge" name="url" placeholder="Your Website here..."/><span class="help-inline">博客</span></label>
+                                <label class=""><textarea name="comment" required="required" class="input-xxlarge" rows="6"></textarea></label>
+                                <input type="submit" class="btn btn-primary btn-block" style="width:544px" value="评论" />
                             <fieldset>
                         </form>
                     </div>

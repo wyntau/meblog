@@ -2,6 +2,7 @@
 var  crypto = require('crypto');
 var User = require('../models/user.js');
 var Post = require('../models/post.js');
+var Comment = require('../models/comment.js');
 
 
 /*
@@ -204,6 +205,22 @@ module.exports = function(app){
                 success:req.flash('success').toString(),
                 error:req.flash('error').toString()
             })
+        })
+    });
+
+    app.post('/comment',function(req,res){
+        if(!req.body.author || !req.body.email || !req.body.comment){
+            req.flash('error','请将必填项填写完整');
+            res.redirect('/p/'+req.body.parentId);
+        }
+        var comment = new Comment(req.body.parentId,req.body.author,req.body.email,req.body.url,req.body.comment);
+        comment.save(function(err){
+            if(err){
+                req.flash('error','评论失败');
+                return res.redirect('/p/'+req.body.parentId);
+            }
+            req.flash('success','评论成功');
+            res.redirect('/p/'+req.body.parentId);
         })
     })
 };

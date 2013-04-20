@@ -1,17 +1,18 @@
 var mongodb = require('./db');
 var settings = require('../settings');
 
-function Comment(parentId,author,email,comment,time,id){
-    this.parentId = parentId;
+function Comment(parentId,author,email,url,comment,time){
+    this.parentId = parentId; //the post id
     this.author = author;
-    this.email = email || '';
+    this.email = email;
+    this.url = url || ''
     this.comment = comment;
     if (time) {
         this.time = time;
     } else {
         this.time = new Date();
     }
-    this.id = id;
+    
 }
 
 module.exports = Comment;
