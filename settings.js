@@ -4,5 +4,5 @@ module.exports = {
     host : 'localhost',
     port : 27017,
     pageSize:5,
-    commentSize:10
+    commentSize:5
 }

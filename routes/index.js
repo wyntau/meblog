@@ -198,13 +198,31 @@ module.exports = function(app){
                 req.flash('error','您所要查看的文章不存在');
                 return res.redirect('/');
             }
-            res.render('article',{
-                title:post.title,
-                user:req.session.user,
-                post:post,
-                success:req.flash('success').toString(),
-                error:req.flash('error').toString()
-            })
+            var page = req.params[1] ? req.params[1] : 1;
+            //console.log('GET page:'+page);
+            //console.log(post._id.toString());
+            Comment.getByParentId(post._id.toString(),page,function(err,comments,page,totalPage,commentsCount){
+                if(err || totalPage == 0){
+                    comments = [];
+                }
+                if(page > totalPage){
+                    req.flash('error','您要查看的页码没有评论可以显示');
+                    res.redirect('/p/'+post._id+'');
+                }
+                res.render('article',{
+                    title:post.title,
+                    user:req.session.user,
+                    post:post,
+                    comments: comments,
+                    page: page,
+                    totalPage: totalPage,
+                    commentsCount:commentsCount,
+                    success:req.flash('success').toString(),
+                    error:req.flash('error').toString()
+                });
+
+            });
+            
         })
     });
 
@@ -214,13 +232,14 @@ module.exports = function(app){
             res.redirect('/p/'+req.body.parentId);
         }
         var comment = new Comment(req.body.parentId,req.body.author,req.body.email,req.body.url,req.body.comment);
+        //console.log(comment);
         comment.save(function(err){
             if(err){
                 req.flash('error','评论失败');
                 return res.redirect('/p/'+req.body.parentId);
             }
             req.flash('success','评论成功');
-            res.redirect('/p/'+req.body.parentId);
+            res.redirect('/p/' + req.body.parentId + '#comment');
         })
     })
 };

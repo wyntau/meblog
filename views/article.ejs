@@ -19,30 +19,68 @@
                     <h3><%= locals.post.title %></h3>
                     <p><%- locals.post.post %></p>
                     <p class="muted text-right"><%= locals.post.time %> Author: <a href="/u/<%= locals.post.user %>"><%= locals.post.user %></a>
+                    <% if(locals.comments.length > 0) {%>
+                    <hr />
+                    <div id="comment">
+                            <h5><%= locals.commentsCount %> Comments</h5>
+                            <% locals.comments.forEach(function(comment,index){%>
+                            <div id="comment_<%= comment._id%>" class="comment_list">
+                                <div class="cominfo">
+                                    <a class="author" href="<%= comment.url%>" target="_blank"><%= comment.author %></a> <span class="comtime muted"><%= comment.time %></span> Said:
+                                </div>
+                                <div class="avatar">
+                                    <img src="http://www.gravatar.com/avatar/<%= (comment.email)%>?s=36&d=monsterid&r=G" />
+                                </div>
+                                <div class="comment">
+                                    <p><%= comment.comment %></p>
+                                </div>
+                            </div>
+                            <hr />
+                            <%})%>
+                    </div>
+                        <% if(locals.totalPage && locals.totalPage > 1 ) { %>
+                        <% var start = parseInt(locals.page) - 3 ;var start = start <=0 ? 1 : start; %>
+                        <!--<%= locals.page %> <%= locals.totalPage %>-->
+                        <% var total =  parseInt(locals.page) + 3; var end = total >= (locals.totalPage) ? (locals.totalPage) : total; %>
+                            <div class="pagination pagination-centered">
+                                <ul>
+                                <% if (locals.page > 1) {%><li><a href="/p/<%= locals.post._id %>/comment/page/<%= locals.page - 1%>#comment">&laquo;</a></li><%}%>
+                                <% for(var i = start;i<= end;i++) {%>
+                                <li class="<%if(i == locals.page) {%>active disabled<%} else {%><%}%>"><a href="/p/<%= locals.post._id %>/comment/page/<%= i %>#comment"><%= i %></a></li>
+                                <%}%>
+                                <% if (locals.page < end) {%><li><a href="/p/<%= locals.post._id %>/comment/page/<%= parseInt(locals.page) + 1%>#comment">&raquo;</a></li><%}%>
+                                </ul>
+                            </div>
+                        <% } %> 
+                    <% } %>
                     <div class="postcomment">
                         <form action="/comment" method="POST" class="form-horizontal">
                             <fieldset>
                                 <legend>评论</legend>
                                 <input type="text" name="parentId" value="<%= locals.post._id%>" style="display:none;">
-                                <label class="" for="author"><input type="text" class="input-xlarge" name="author" required="required" placeholder="Your name here..."/><span class="help-inline">昵称(*)</span></label>
-                                <label class="" for="email"><input type="email" required="required" class="input-xlarge" name="email" placeholder="Your Email here..."/><span class="help-inline">邮箱(*)</span></label>
-                                <label class="" for="url"><input type="text" class="input-xlarge" name="url" placeholder="Your Website here..."/><span class="help-inline">博客</span></label>
-                                <label class=""><textarea name="comment" required="required" class="input-xxlarge" rows="6"></textarea></label>
+
+                                <label class="" for="author">
+                                    <div class="input-append"><input type="text" class="input-xlarge" name="author" required="required" placeholder="Your name here..."/><span class="add-on"><i class="icon-user"></i></span></div>
+                                    <span class="help-inline">昵称(*)</span>
+                                </label>
+
+                                <label class="" for="email">
+                                    <div class="input-append"><input type="email" required="required" class="input-xlarge" name="email" placeholder="Your Email here..."/><span class="add-on"><i class="icon-envelope"></i></span></div>
+                                    <span class="help-inline">邮箱(*)</span>
+                                </label>
+
+                                <label class="" for="url">
+                                    <div class="input-append"><input type="text" class="input-xlarge" name="url" placeholder="Your Website here..."/><span class="add-on"><i class="icon-home"></i></span></div>
+                                    <span class="help-inline">博客</span>
+                                </label>
+
+                                <label class="">
+                                    <textarea name="comment" required="required" class="input-xxlarge" rows="6"></textarea>
+                                </label>
+
                                 <input type="submit" class="btn btn-primary btn-block" style="width:544px" value="评论" />
                             <fieldset>
                         </form>
                     </div>
-                    <% if(locals.comments) {%>
-                    <div class="comment">
-                            <% locals.comments.forEach(function(comment,index){%>
-                            <div id="<%= comment._id%>">
-                                <div class="anthor"><%= comment.author %> <span class="email">(<%= comment.email%>)</span> Said</div>
-                                <div class="comment">
-                                    <p><%= comment.comment %></p>
-                                </div>
-                                <div class="comtime"><%= comment.time %></div>
-                            </div>
-                            <%})%>
-                    </div>
-                    <% } %>
+                    
 <%- include footer %>

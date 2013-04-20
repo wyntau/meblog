@@ -1,5 +1,6 @@
 var mongodb = require('./db');
 var settings = require('../settings');
+var crypto = require('crypto');
 
 function Comment(parentId,author,email,url,comment,time){
     this.parentId = parentId; //the post id
@@ -40,6 +41,7 @@ Comment.prototype.save = function save(callback){
         parentId : this.parentId,
         author : this.author,
         email : this.email,
+        url:this.url,
         comment : this.comment,
         time : this.time
     }
@@ -55,6 +57,8 @@ Comment.prototype.save = function save(callback){
             });
             collection.insert(comment, {safe: true}, function(err, comment) {
                 mongodb.close();
+                //console.log('save comment success:');
+                //console.log(comment);
                 callback(err, comment);
             });
         }
@@ -63,6 +67,7 @@ Comment.prototype.save = function save(callback){
 
 Comment.getByParentId = function getByParentId(parentId,page,callback){
     var totalPage = 0;
+    //console.log('parentId: '+parentId);
     this.getCollection(function(err,collection){
         mongodb.close();
         if(err){
@@ -70,19 +75,24 @@ Comment.getByParentId = function getByParentId(parentId,page,callback){
         }else{
             var query = {};
             var _skip = 0;
-            var _limit = settings.comentSize;
+            var _limit = settings.commentSize;
+            //console.log('limit:' +_limit);
             query.parentId = parentId;
+            //console.log('query :');
+            //console.log(query);
             if(page){
                 _skip = (page-1) * settings.commentSize;
             }else{
                 _skip = 0;
             }
+            //console.log(collection.find(query));
             collection.find(query).count(function(err,commentsCount){
+                //console.log('commentsCount:'+commentsCount);
                 if(err){
                     callback(err);
                 }else if(commentsCount > 0){
                     pageCount = Math.ceil(commentsCount/settings.commentSize);
-                    console.log(pageCount);
+                    //console.log(pageCount);
                     pageCount = pageCount > 0 ? pageCount : 1;
                     totalPage = pageCount;
 
@@ -90,14 +100,21 @@ Comment.getByParentId = function getByParentId(parentId,page,callback){
                         if(err){
                             callback(err);
                         }
+                        //console.log(docs);
                         var comments = [];
+                        
                         docs.forEach(function(doc,index){
-                            var comment = new Comment(doc.parentId,doc.author,doc.email,doc.comment,doc.time,doc._id);
-                            comment.time = formatTime(comment.time);
-                            comments.push(comment);
+                            doc.time = formatTime(doc.time);
+                            //生成md5加密过的邮箱地址,用于avatar取图
+                            var md5 = crypto.createHash('md5');
+                            doc.email = md5.update(String(doc.email).toLowerCase()).digest('hex');
+                            //console.log(doc.email);
+                            comments.push(doc);
                         });
-                        callback(null,comments,page,pageCount);
+                        callback(null,comments,page,totalPage,commentsCount);
                     })
+                } else if( commentsCount == 0){
+                    callback(null,[],0,0);
                 }
             })
         }

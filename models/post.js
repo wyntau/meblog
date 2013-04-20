@@ -1,5 +1,7 @@
 var mongodb = require('./db');
 var settings = require('../settings');
+var ObjectID = require('mongodb').ObjectID;
+//console.log(ObjectID);
 
 
 function Post(username, title,post, time,id) {
@@ -11,7 +13,7 @@ function Post(username, title,post, time,id) {
     } else {
         this.time = new Date();
     }
-    this.id = id;
+    this.id = id || '';
 };
 module.exports = Post;
 
@@ -66,11 +68,11 @@ Post.getById = function getById(id,callback){
             callback(err);
         }else{
             //console.log(collection);
-            collection.findOne({_id:collection.db.pkFactory.createFromHexString(id)},function(err,result){
+            collection.findOne({_id:ObjectID(id)},function(err,result){
                 if(err){
                     callback(err);
                 }else{
-                    console.log(result);
+                    //console.log(result);
                     result.time = formatTime(result.time);
                     callback(null,result);
                 }
@@ -97,13 +99,14 @@ Post.getBy = function getBy(name,page,callback){
             } else {
                 _skip = 0;
             } 
+            //console.log(query);
             //first get posts totalcount
             collection.find(query).count(function(err,postsCount){
                 if (err) { 
                     callback(err);
                 }else if(postsCount > 0){
                     pageCount = Math.ceil(postsCount/settings.pageSize);
-                    console.log(pageCount);
+                    //console.log(pageCount);
                     pageCount = pageCount > 0 ? pageCount : 1;
                     totalPage = pageCount;
                     //console.log(totalPage);
@@ -114,9 +117,9 @@ Post.getBy = function getBy(name,page,callback){
                         //console.log(docs);
                         var posts = [];
                         docs.forEach(function(doc,index){
-                            var post = new Post(doc.user, doc.title, doc.post, doc.time,doc._id);
-                            post.time = formatTime(post.time);
-                            posts.push(post);
+                            //var post = new Post(doc.user, doc.title, doc.post, doc.time);
+                            doc.time = formatTime(doc.time);
+                            posts.push(doc);
                         });
                         callback(null,posts,page,totalPage);
                     });
