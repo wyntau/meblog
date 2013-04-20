@@ -1,5 +1,4 @@
 <%- include header %>
-            
             <div class="row-fluid">
                 <nav class="span2 offset2">
                     <ul class="nav nav-tabs nav-stacked">
@@ -16,8 +15,33 @@
                         <% } %>
                     </ul>
                 </nav>
-                <article class="span6">
+                <article class="span6" id="<%= locals.post._id %>">
                     <h3><%= locals.post.title %></h3>
                     <p><%- locals.post.post %></p>
                     <p class="muted text-right"><%= locals.post.time %> Author: <a href="/u/<%= locals.post.user %>"><%= locals.post.user %></a>
+                    <div class="postcomment">
+                        <form action="/comment" method="POST" class="form-horizontal">
+                            <fieldset>
+                                <legend>评论</legend>
+                                <input type="text" name="parentId" value="<%= locals.post._id%>" style="display:none;">
+                                <label class="" for="author"><input type="text" class="input-xlarge" name="author" placeholder="Your name here..."/><span class="help-inline">昵称</span></label>
+                                <label class="" for="email"><input type="text" class="input-xlarge" name="email" placeholder="Your Email here..."/><span class="help-inline">邮箱</span></label>
+                                <label class="pull-left"><textarea name="comment" class="input-xxlarge" rows="5"></textarea></label>
+                                <input type="submit" class="btn btn-primary btn-block" value="发表" />
+                            <fieldset>
+                        </form>
+                    </div>
+                    <% if(locals.comments) {%>
+                    <div class="comment">
+                            <% locals.comments.forEach(function(comment,index){%>
+                            <div id="<%= comment._id%>">
+                                <div class="anthor"><%= comment.author %> <span class="email">(<%= comment.email%>)</span> Said</div>
+                                <div class="comment">
+                                    <p><%= comment.comment %></p>
+                                </div>
+                                <div class="comtime"><%= comment.time %></div>
+                            </div>
+                            <%})%>
+                    </div>
+                    <% } %>
 <%- include footer %>

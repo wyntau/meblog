@@ -27,7 +27,7 @@ User.getCollection = function getCollection(callback){
 User.prototype.save = function save(callback) {
     var user = {
         name: this.name,
-        password: this.password,
+        password: this.password
     };
     
     User.getCollection(function(err,collection){

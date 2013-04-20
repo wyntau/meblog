@@ -190,8 +190,9 @@ module.exports = function(app){
             });
         });
     });
-    app.get('/p/:id',function(req,res){
-        Post.getById(req.params.id,function(err,post){
+    // app.get('/p/:id',function(req,res){
+    app.get(/^\/p\/(\w+)(?:\/comment\/page\/([1-9]+\d*))?$/,function(req,res){
+        Post.getById(req.params[0],function(err,post){
             if(err){
                 req.flash('error','您所要查看的文章不存在');
                 return res.redirect('/');

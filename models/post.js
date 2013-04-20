@@ -38,7 +38,7 @@ Post.prototype.save = function save(callback) {
         user: this.user,
         title: this.title,
         post: this.post,
-        time: this.time,
+        time: this.time
     };
     Post.getCollection(function(err,collection){
         if(err) {
@@ -70,6 +70,7 @@ Post.getById = function getById(id,callback){
                 if(err){
                     callback(err);
                 }else{
+                    console.log(result);
                     result.time = formatTime(result.time);
                     callback(null,result);
                 }
