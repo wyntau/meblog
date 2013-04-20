@@ -121,8 +121,44 @@ Comment.getByParentId = function getByParentId(parentId,page,callback){
     })
 }
 
-function formatTime(time){
-    var now = time;
-    time = now.getFullYear() + "-" + (now.getUTCMonth()+1) + "-" + now.getUTCDate();
-    return time;
+// function formatTime(time){
+//     var now = time;
+//     time = now.getFullYear() + "-" + (now.getUTCMonth()+1) + "-" + now.getUTCDate();
+//     return time;
+// }
+
+function formatTime(date)  
+{  
+    var year = date.getFullYear();  
+    var month = date.getMonth();  
+    var day = date.getDate();  
+    var hour = date.getHours();  
+    var minute = date.getMinutes();  
+    var second = date.getSeconds();  
+  
+    var datestr;  
+  
+    if (month <9)  
+    {  
+        month = '0' + (month + 1);  
+    }  
+    if (day < 10)  
+    {  
+        day = '0' + day;  
+    }  
+    if (hour < 10)  
+    {  
+        hour = '0' + hour;  
+    }  
+    if (minute < 10)  
+    {  
+        minute = '0' + minute;  
+    }  
+    if (second < 10)  
+    {  
+        second = '0' + second;  
+    }  
+  
+    datestr = year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + second;  
+    return datestr;  
 }

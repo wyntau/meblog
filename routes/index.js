@@ -220,8 +220,6 @@ module.exports = function(app){
                 return res.redirect('/');
             }
             var page = req.params[1] ? req.params[1] : 1;
-            //console.log('GET page:'+page);
-            //console.log(post._id.toString());
             Comment.getByParentId(post._id.toString(),page,function(err,comments,page,totalPage,commentsCount){
                 if(err || totalPage == 0){
                     comments = [];
@@ -237,6 +235,9 @@ module.exports = function(app){
                     comments: comments,
                     page: page,
                     totalPage: totalPage,
+                    author:req.cookies.author || '',
+                    email : req.cookies.email || '',
+                    url : req.cookies.url || '',
                     commentsCount:commentsCount,
                     success:req.flash('success').toString(),
                     error:req.flash('error').toString()
@@ -260,6 +261,9 @@ module.exports = function(app){
                 return res.redirect('/p/'+req.body.parentId);
             }
             req.flash('success','评论成功');
+            res.cookie('author',req.body.author);
+            res.cookie('email',req.body.email);
+            res.cookie('url',req.body.url);
             res.redirect('/p/' + req.body.parentId + '#comment');
         })
     })

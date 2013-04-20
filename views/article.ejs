@@ -54,26 +54,34 @@
                         <% } %> 
                     <% } %>
                     <div class="postcomment">
+                        
                         <form action="/comment" method="POST" class="form-horizontal">
                             <fieldset>
                                 <legend>评论</legend>
+                                <% if( locals.user ) {%>
+                                <p class="welcome">欢迎您,<strong><%= locals.user.name %></strong>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/logout">退出&raquo;</a></p>
+                                <% }%>
                                 <input type="text" name="parentId" value="<%= locals.post._id%>" style="display:none;">
-
+                        <% if(!locals.user ) {%>
                                 <label class="" for="author">
-                                    <div class="input-append"><input type="text" class="input-xlarge" name="author" required="required" placeholder="Your name here..."/><span class="add-on"><i class="icon-user"></i></span></div>
+                                    <div class="input-append"><input type="text" class="input-xlarge" name="author" required="required" placeholder="Your name here..." value="<%= locals.author || '' %>"/><span class="add-on"><i class="icon-user"></i></span></div>
                                     <span class="help-inline">昵称(*)</span>
                                 </label>
 
                                 <label class="" for="email">
-                                    <div class="input-append"><input type="email" required="required" class="input-xlarge" name="email" placeholder="Your Email here..."/><span class="add-on"><i class="icon-envelope"></i></span></div>
+                                    <div class="input-append"><input type="email" required="required" class="input-xlarge" name="email" placeholder="Your Email here..." value="<%= locals.email || '' %>"/><span class="add-on"><i class="icon-envelope"></i></span></div>
                                     <span class="help-inline">邮箱(*)</span>
                                 </label>
 
                                 <label class="" for="url">
-                                    <div class="input-append"><input type="url" class="input-xlarge" name="url" placeholder="Your Website here..."/><span class="add-on"><i class="icon-home"></i></span></div>
+                                    <div class="input-append"><input type="url" class="input-xlarge" name="url" placeholder="Your Website here..." value="<%= locals.url || '' %>"/><span class="add-on"><i class="icon-home"></i></span></div>
                                     <span class="help-inline">博客</span>
                                 </label>
-
+                        <% } else {%>
+                                <input type="text" name="author" value="<%= locals.user.name %>" style="display:none" />
+                                <input type="text" name="email" value="<%= locals.user.email %>" style="display:none" />
+                                <input type="text" name="url" value="<%= locals.user.url || '' %>" style="display:none" />
+                        <% }%>
                                 <label class="">
                                     <textarea name="comment" required="required" class="input-xxlarge" rows="6"></textarea>
                                 </label>
@@ -82,5 +90,4 @@
                             <fieldset>
                         </form>
                     </div>
-                    
 <%- include footer %>
