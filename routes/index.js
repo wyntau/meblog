@@ -261,9 +261,11 @@ module.exports = function(app){
                 return res.redirect('/p/'+req.body.parentId);
             }
             req.flash('success','评论成功');
-            res.cookie('author',req.body.author);
-            res.cookie('email',req.body.email);
-            res.cookie('url',req.body.url);
+            var expire = new Date(Date.now() + 32*60*60*1000);
+            //console.log('expire:' +expire);
+            res.cookie('author',req.body.author,{ expires: expire });
+            res.cookie('email',req.body.email,{ expires: expire });
+            res.cookie('url',req.body.url,{ expires: expire });
             res.redirect('/p/' + req.body.parentId + '#comment');
         })
     })
