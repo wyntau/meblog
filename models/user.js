@@ -3,6 +3,8 @@ var mongodb = require('./db');
 function User(user) {
     this.name = user.name;
     this.password = user.password;
+    this.email = user.email;
+    this.url = user.url || '';
 };
 
 module.exports = User;
@@ -27,7 +29,9 @@ User.getCollection = function getCollection(callback){
 User.prototype.save = function save(callback) {
     var user = {
         name: this.name,
-        password: this.password
+        password: this.password,
+        email:this.email,
+        url:this.url
     };
     
     User.getCollection(function(err,collection){

@@ -46,39 +46,60 @@ module.exports = function(app){
         });
     });
     app.post('/reg',function(req,res){
-        if (req.body['password-repeat'] != req.body['password']) {
+        if(!req.body.username || !req.body.email || !req.body['password-repeat'] || !req.body['password']){
+            req.flash('error', '请将必填项填写完整');
+            res.render('reg', {
+                title: '用户注册 - 错误',
+                user : req.session.user,
+                username: req.body.username,
+                email:req.body.email,
+                url:req.body.url,
+                success : req.flash('success').toString(),
+                error : req.flash('error').toString()
+            });
+        }else if (req.body['password-repeat'] != req.body['password']) {
             req.flash('error', '两次输入的密码不一致');
-            return res.redirect('/reg');
-        }
-      
-        //生成md5的密码
-        var md5 = crypto.createHash('md5');
-        var password = md5.update(req.body.password).digest('base64');
-        
-        var newUser = new User({
-            name: req.body.username,
-            password: password,
-        });
-        
-        //检查用户名是否已经存在
-        User.get(newUser.name, function(err, user) {
-            if (user)
-                err = '用户名已存在';
-            if (err) {
-                req.flash('error', err);
-                return res.redirect('/reg');
-            }
-            //如果不存在則新增用戶
-            newUser.save(function(err) {
+            res.render('reg', {
+                title: '用户注册 - 错误',
+                user : req.session.user,
+                username: req.body.username,
+                email:req.body.email,
+                url:req.body.url,
+                success : req.flash('success').toString(),
+                error : req.flash('error').toString()
+            });
+        } else {
+            //生成md5的密码
+            var md5 = crypto.createHash('md5');
+            var password = md5.update(req.body.password).digest('base64');
+            
+            var newUser = new User({
+                name: req.body.username,
+                password: password,
+                email: req.body.email,
+                url:req.body.url || ''
+            });
+            
+            //检查用户名是否已经存在
+            User.get(newUser.name, function(err, user) {
+                if (user)
+                    err = '用户名已存在';
                 if (err) {
                     req.flash('error', err);
                     return res.redirect('/reg');
                 }
-                req.session.user = newUser;
-                req.flash('success', '注册成功');
-                res.redirect('/');
+                //如果不存在則新增用戶
+                newUser.save(function(err) {
+                    if (err) {
+                        req.flash('error', err);
+                        return res.redirect('/reg');
+                    }
+                    req.session.user = newUser;
+                    req.flash('success', '注册成功');
+                    res.redirect('/');
+                });
             });
-        });
+        }
     });
     app.get('/login',function(req,res){
         if(!req.session.user){
