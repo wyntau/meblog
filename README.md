@@ -53,4 +53,4 @@ if you have done above, see below please
 - index show comment count
 
 ## License
-Released under the GPL Licenses.
+Released under the MIT and GPL Licenses.
