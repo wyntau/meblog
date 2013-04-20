@@ -1,12 +1,12 @@
 meblog
 ======
 
-## Installation ## 
+## Installation 
 To install meblog, you should have installed git(if not installed git, you can download the [zip](https://github.com/Vinntoe/meblog/archive/master.zip) directly and unpack it) [Node.js](http://nodejs.org/) V0.10+ and [MongoDB](http://www.mongodb.org/) V2.4.1+.
 
 if you have done above, see below please
 
-### For Linux ###
+### For Linux
 1. clone the repo
 
         git clone git://github.com/Vinntoe/meblog.git
@@ -25,7 +25,7 @@ if you have done above, see below please
 
 5. access <http://localhost:3000> for meblog :)
 
-### For Windows ###
+### For Windows
 1. clone the repo
 
         git clone git://github.com/Vinntoe/meblog.git
@@ -39,7 +39,7 @@ if you have done above, see below please
 4. start the app : double click **start.bat**. **\*\*NOT**** close the window
 5. access <http://localhost:3000> for meblog :)
 
-## TODO: ##
+## TODO:
 - <del>redister</del>
 - <del>login and logout</del>
 - <del>add kindEditor</del>
@@ -52,5 +52,5 @@ if you have done above, see below please
 - add post tags
 - index show comment count
 
-## License ##
+## License
 Released under the GPL Licenses.
