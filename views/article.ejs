@@ -59,7 +59,7 @@
                             <fieldset>
                                 <legend>评论</legend>
                                 <% if( locals.user ) {%>
-                                <p class="welcome">欢迎您,<strong><%= locals.user.name %></strong>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/logout/?redirect=<%=locals.post._id%>">退出&raquo;</a></p>
+                                <p class="welcome">欢迎您,<strong><%= locals.user.name %></strong>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/logout/?redirect=/p/<%=locals.post._id%>">退出&raquo;</a></p>
                                 <% }%>
                                 <input type="text" name="parentId" value="<%= locals.post._id%>" style="display:none;">
                         <% if(!locals.user ) {%>
