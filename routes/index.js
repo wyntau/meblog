@@ -40,6 +40,7 @@ module.exports = function(app){
         res.render('reg', {
             title: '用户注册',
             user : req.session.user,
+            redirect: req.query.redirect,
             success : req.flash('success').toString(),
             error : req.flash('error').toString()
         });
@@ -52,6 +53,7 @@ module.exports = function(app){
                 user : req.session.user,
                 username: req.body.username,
                 email:req.body.email,
+                redirect:req.query.redirect,
                 url:req.body.url,
                 success : req.flash('success').toString(),
                 error : req.flash('error').toString()
@@ -64,6 +66,7 @@ module.exports = function(app){
                 username: req.body.username,
                 email:req.body.email,
                 url:req.body.url,
+                redirect:req.query.redirect,
                 success : req.flash('success').toString(),
                 error : req.flash('error').toString()
             });
@@ -95,7 +98,11 @@ module.exports = function(app){
                     }
                     req.session.user = newUser;
                     req.flash('success', '注册成功');
-                    res.redirect('/');
+                    if(req.query.redirect){
+                        res.redirect(req.query.redirect);
+                    }else{
+                        res.redirect('/');
+                    }
                 });
             });
         }
@@ -105,6 +112,7 @@ module.exports = function(app){
             res.render('login', {
                 title: '用户登录',
                 user : req.session.user,
+                redirect: req.query.redirect || '',
                 success : req.flash('success').toString(),
                 error : req.flash('error').toString()
             });
@@ -115,26 +123,31 @@ module.exports = function(app){
             
     });
     app.post('/login',function(req,res){
+        //console.log(req.body.redirect);
         if(!req.session.user){
             //生成口令的散列值
             var md5 = crypto.createHash('md5');
             var password = md5.update(req.body.password).digest('base64');
             if(!req.body.username || !req.body.password){
                 req.flash('error','请将用户名或密码填写完整');
-                return res.redirect('/login');
+                return res.redirect(req.query.redirect ? ('/login/?redirect='+req.query.redirect) : '/login');
             }
             User.get(req.body.username, function(err, user) {
                 if (!user) {
                     req.flash('error', '用户不存在');
-                    return res.redirect('/login');
+                    return res.redirect(req.query.redirect ? ('/login/?redirect='+req.query.redirect) : '/login');
                 }
                 if (user.password != password) {
                     req.flash('error', '密码错误');
-                    return res.redirect('/login');
+                    return res.redirect(req.query.redirect ? ('/login/?redirect='+req.query.redirect) : '/login');
                 }
                 req.session.user = user;
                 req.flash('success', '登录成功');
-                res.redirect('/');
+                if(req.query.redirect){
+                    res.redirect(req.query.redirect);
+                }else{
+                    res.redirect('/');
+                }
             });
         } else {
             req.flash('error','您已经登录，请不要调皮');
@@ -145,7 +158,11 @@ module.exports = function(app){
     app.get('/logout',function(req,res){
         req.session.user = null;
         req.flash('success', '登出成功');
-        res.redirect('/');
+        if(req.query.redirect){
+            res.redirect(req.query.redirect);
+        }else{
+            res.redirect('/');
+        }
     });
     app.get('/post',function(req,res){
         if(req.session.user){
@@ -156,8 +173,8 @@ module.exports = function(app){
                 error:req.flash('error').toString()
             });
         } else{
-            req.flash('error','您没有发表权限，请先登录')
-            return res.redirect('/login');
+            req.flash('error','您没有发表权限，请先登录');
+            return res.redirect('/login/?redirect=/post');
         }
          
     });

@@ -64,12 +64,12 @@ User.get = function get(username, callback) {
             //find
             collection.findOne({name: username}, function(err, doc) {
                 mongodb.close();
-                console.log('doc:');
-                console.log(doc);
+                //console.log('doc:');
+                //console.log(doc);
                 if (doc) {
                     var user = new User(doc);
-                    console.log('user:');
-                    console.log(user);
+                    //console.log('user:');
+                    //console.log(user);
                     callback(err, user);
                 } else {
                     callback(err, null);

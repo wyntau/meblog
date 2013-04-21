@@ -17,7 +17,7 @@
                     </ul>
                 </nav>
                 <article class="span6">
-                    <form method="post" class="form-horizontal">
+                    <form method="post" action="/reg<% if (locals.redirect) {%>/?redirect=<%= locals.redirect %><%}%>" class="form-horizontal">
                         <fieldset>
                             <legend>注册</legend>
                             <div class="control-group">

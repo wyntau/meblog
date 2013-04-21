@@ -8,10 +8,10 @@
                         <li><a href="/">首页</a></li>
                         <% if(locals.user) {%>
                         <li><a href="/post">发言</a></li>
-                        <li><a href="/logout">退出</a></li>
+                        <li><a href="/logout/?redirect=/p/<%= locals.post._id%>">退出</a></li>
                         <% } else { %>
-                         <li><a href="/login">登录</a></li>
-                        <li><a href="/reg">注册</a></li>
+                         <li><a href="/login/?redirect=/p/<%= locals.post._id%>">登录</a></li>
+                        <li><a href="/reg/?redirect=/p/<%= locals.post._id%>">注册</a></li>
                         <% } %>
                     </ul>
                 </nav>
@@ -59,7 +59,7 @@
                             <fieldset>
                                 <legend>评论</legend>
                                 <% if( locals.user ) {%>
-                                <p class="welcome">欢迎您,<strong><%= locals.user.name %></strong>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/logout">退出&raquo;</a></p>
+                                <p class="welcome">欢迎您,<strong><%= locals.user.name %></strong>&nbsp;&nbsp;&nbsp;&nbsp;<a href="/logout/?redirect=<%=locals.post._id%>">退出&raquo;</a></p>
                                 <% }%>
                                 <input type="text" name="parentId" value="<%= locals.post._id%>" style="display:none;">
                         <% if(!locals.user ) {%>
