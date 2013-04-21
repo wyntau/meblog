@@ -21,11 +21,12 @@
             textarea{resize:vertical;}
             .comment_list{margin: 5px 0;}
             .avatar{float:right;margin-left: 10px;margin-bottom: 5px;}
-            .comment{padding-top: 5px;}
+            .comment{padding-top: 5px;word-wrap:break-word;overflow:hidden;}
             .comtime{margin-left: 5px;}
+            span.desc{padding:10px 20px 10px 10px;display: block;float: left;}
         </style>
         <script type="text/javascript" src="/editor/kindeditor-min.js"></script> 
-        <script type="text/javascript" src="/editor/zh_CN.js"></script>
+        <!--<script type="text/javascript" src="/editor/zh_CN.js"></script>
         <script typ="text/javascript">
             var editor;
             KindEditor.ready(function(K) {
@@ -35,7 +36,7 @@
                          items:['source', 'undo', 'redo', 'preview', 'template', 'code', 'cut', 'copy', 'paste','plainpaste', 'justifyleft', 'justifycenter', 'justifyright','justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript','superscript', 'clearhtml', '/','formatblock', 'fontname', 'fontsize', 'forecolor', 'hilitecolor', 'bold','italic', 'underline', 'strikethrough',  'removeformat', 'image','flash', 'media', 'table', 'hr', 'emoticons', 'pagebreak','anchor', 'link', 'unlink']
                     });
             });
-        </script>
+        </script>-->
     </head>
     <body>
         <div class="container">
@@ -44,9 +45,7 @@
                     <div class="row navbar">
                         <div class="navbar-inner">
                             <a class="brand offset2" href="/">Meblog</a>
-                            <ul class="nav">
-                                <li><a class="disabled">Based on Node.js and MongoDB. Using Express,ejs,Bootstrap and KindEditor. Thx all!!</a></li>
-                            </ul>
+                            <span class="desc">Based on Node.js and MongoDB. Using Express,ejs,Bootstrap and KindEditor. Thx all!!</span>
                         </div>
                     </div>
                 </header>

@@ -119,7 +119,10 @@ module.exports = function(app){
             //生成口令的散列值
             var md5 = crypto.createHash('md5');
             var password = md5.update(req.body.password).digest('base64');
-            
+            if(!req.body.username || !req.body.password){
+                req.flash('error','请将用户名或密码填写完整');
+                return res.redirect('/login');
+            }
             User.get(req.body.username, function(err, user) {
                 if (!user) {
                     req.flash('error', '用户不存在');
@@ -160,6 +163,10 @@ module.exports = function(app){
     });
     app.post('/post',function(req,res){
         if(req.session.user){
+            if(!req.body.title || !req.body.post){
+                req.flash('error','请将标题或内容填写完整');
+                return res.redirect('/post');
+            }
             var currentUser = req.session.user;
             var post = new Post(currentUser.name, req.body.title, req.body.post);
             post.save(function(err) {
@@ -241,9 +248,7 @@ module.exports = function(app){
                     success:req.flash('success').toString(),
                     error:req.flash('error').toString()
                 });
-
             });
-            
         })
     });
 
