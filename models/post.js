@@ -69,8 +69,8 @@ Post.getById = function getById(id,callback){
         }else{
             //console.log(collection);
             collection.findOne({_id:ObjectID(id)},function(err,result){
-                if(err){
-                    callback(err);
+                if(err || !result){
+                    callback(err || true); // if no post found call error handle function
                 }else{
                     //console.log(result);
                     result.time = formatTime(result.time);

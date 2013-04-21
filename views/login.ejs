@@ -20,6 +20,7 @@
                     <form method="post" class="form-horizontal">
                         <fieldset>
                             <legend>登录</legend>
+                            <input type="text" style="display:none" name="redirect" value="<%= locals.redirect || '' %>"/>
                             <div class="control-group">
                                 <label class="control-label" for="username">用户名：</label>
                                 <div class="control">
