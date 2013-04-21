@@ -20,7 +20,7 @@ module.exports = function(app){
                 posts = [];
             }
             if(totalPage == 0 && posts.length == 0){
-                req.flash('error','没有文章可以显示,请先注册后发表文章');
+                //req.flash('error','没有文章可以显示,请先注册后发表文章');
             }else if(posts.length == 0){
                 req.flash('error','您要查看的页码没有文章可以显示');
                 //return res.redirect('/');
