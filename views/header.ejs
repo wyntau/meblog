@@ -15,6 +15,7 @@
                 })(["header","section","article","footer"])
             </script>
         <![endif]-->
+        <link rel="shortcut icon" href="/img/favicon.png" type="image/x-icon" />
         <link rel="stylesheet" href="/css/bootstrap.min.css">
         <link rel="stylesheet" href="/css/bootstrap-responsive.css">
         <style type="text/css">
@@ -25,7 +26,7 @@
             .comtime{margin-left: 5px;}
             span.desc{padding:10px 20px 10px 10px;display: block;float: left;}
         </style>
-        <script type="text/javascript" src="/editor/kindeditor-min.js"></script> 
+        <script type="text/javascript" src="/editor/kindeditor-min.js"></script>
         <!--<script type="text/javascript" src="/editor/zh_CN.js"></script>
         <script typ="text/javascript">
             var editor;
@@ -53,15 +54,15 @@
             <% if(locals.success || locals.error) {%>
             <div class="row-fluid">
                 <article class="span8 offset2">
-                <% if (locals.success) { %> 
+                <% if (locals.success) { %>
                   <div class="alert alert-success text-center">
-                    <%= locals.success %> 
-                  </div> 
-                <% } %> 
-                <% if (locals.error) { %> 
+                    <%= locals.success %>
+                  </div>
+                <% } %>
+                <% if (locals.error) { %>
                   <div class="alert alert-error text-center">
-                    <%= locals.error %> 
-                  </div> 
+                    <%= locals.error %>
+                  </div>
                 <% } %>
                 </article>
             </div>
