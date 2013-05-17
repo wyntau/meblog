@@ -3,6 +3,6 @@ module.exports = {
     db : 'me',
     host : 'localhost',
     port : 27017,
-    pageSize:5,
-    commentSize:5
+    pageSize:2,
+    commentSize:3
 }
