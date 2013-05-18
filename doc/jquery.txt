@@ -1,0 +1,13 @@
+2.1	JQuery
+jQuery是一个兼容多浏览器的javascript库，核心理念是write less,do more(写的更少,做的更多)。
+jQuery在2006年1月由美国人John Resig在纽约的barcamp发布，吸引了来自世界各地的众多JavaScript高手加入，现在由Dave Methvin率领团队进行开发。
+如今，jQuery已经成为最流行的javascript库，目前全世界57.3%的网站使用它。也就是说，10个网站里面，有6个使用jQuery。如果只考察使用工具库的网站，这个比例就会上升到惊人的91.7%。
+jQuery是免费、开源的，使用MIT许可协议。jQuery的语法设计可以使开发者更加便捷，例如操作文档对象、选择DOM元素、制作动画效果、事件处理、使用Ajax(Asynchronous JavaScript and XML, 即异步JavaScript和XML)以及其他功能。除此以外，jQuery提供API让开发者编写插件。其模块化的使用方式使开发者可以很轻松的开发出功能强大的静态或动态网页。
+jQuery包含以下特点：
+1. 动态特效
+2. AJAX
+3. 通过插件来扩展
+4. 方便的工具 - 例如浏览器版本判断
+5. 渐进增强
+6. 链式调用
+7. 多浏览器支持，支持Internet Explorer6.0+、Opera9.0+、Firefox2+、Safari2.0+、Chrome1.0+（在2.0.0中取消了对Internet Explorer6,7,8的支持）
