@@ -49,10 +49,10 @@ if you have done above, see below please
 - [x] comment page navigation
 - [x] add comment gravatar
 - [x] if the user has login, not show visitor input form
-- [ ] add post tags
-- [ ] user setting page to update own info
-- [ ] Visitor Gravatar cache
-- [ ] index show comment count
+- [-] add post tags
+- [-] user setting page to update own info
+- [-] Visitor Gravatar cache
+- [-] index show comment count
 
 ## License
 Released under the MIT and GPL Licenses.
