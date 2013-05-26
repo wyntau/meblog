@@ -40,19 +40,19 @@ if you have done above, see below please
 5. access <http://localhost:3000> for meblog :)
 
 ## TODO:
-- <del>redister</del>
-- <del>login and logout</del>
-- <del>add kindEditor</del>
-- <del>post article</del>
-- <del>archive pagination for indexpage and userpage</del>
-- <del>post comment for visitor</del>
-- <del>comment page navigation</del>
-- <del>add comment gravatar</del>
-- <del>if the user has login, not show visitor input form</del>
-- add post tags
-- user setting page to update own info
-- Visitor Gravatar cache
-- index show comment count
+- [x] redister
+- [x] login and logout
+- [x] add kindEditor
+- [x] post article
+- [x] archive pagination for indexpage and userpage
+- [x] post comment for visitor
+- [x] comment page navigation
+- [x] add comment gravatar
+- [x] if the user has login, not show visitor input form
+- [ ] add post tags
+- [ ] user setting page to update own info
+- [ ] Visitor Gravatar cache
+- [ ] index show comment count
 
 ## License
 Released under the MIT and GPL Licenses.
