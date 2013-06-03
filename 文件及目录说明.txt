@@ -3,7 +3,8 @@
   1. *doc* - 论文目录
   2. *doc_source* - 论文中用到的vsd源文件、图片 目录
   3. *screenshot* - 效果图截图目录
-  4. 其它 - 博客系统程序目录
+  4. *.git* - git配置目录
+  5. 其它 - 博客系统程序目录
 - 文件
   1. *README.md* - 博客系统安装README文档
   2. *mongodb.bat* *start.bat*  - Windows下博客系统启动文件
